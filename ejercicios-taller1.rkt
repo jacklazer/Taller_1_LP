@@ -174,9 +174,9 @@
 
 ;; operate-aux:
 ;; Proposito:
-;; lrators x lrands x result -> L’ : Procedimiento que recibe dos listas y un numero, 
+;; lrators x lrands x result -> r : Procedimiento que recibe dos listas y un numero, 
 ;; lrators que contiene n funciones binarias, lrands que contiene n+1 numeros y result,
-;; y devuelve el resultado de aplicar sucesivamente las operaciones en lrators a los
+;; y devuelve el resultado r de aplicar sucesivamente las operaciones en lrators a los
 ;; valores en lrands como si el primer valor de lrands fuera result.
 ;;
 ;; <lista-de-enteros> := ({int}*)
@@ -202,9 +202,9 @@
 
 ;; operate:
 ;; Proposito:
-;; lrators x lrands -> L’ : Procedimiento que recibe dos listas, lrators que
+;; lrators x lrands -> r : Procedimiento que recibe dos listas, lrators que
 ;; contiene n funciones binarias y lrands que contiene n+1 numeros y devuelve
-;; resultado de aplicar sucesivamente las operaciones en lrators a los valores en lrands.
+;; resultado r de aplicar sucesivamente las operaciones en lrators a los valores en lrands.
 ;;
 ;; <lista-de-enteros> := ({int}*)
 ;;
@@ -222,6 +222,46 @@
 (display (operate (list + * + - *) '(1 2 8 4 11 6)))
 (newline)
 (display (operate (list *) '(4 5)))
+(newline)
+(newline)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; 16)
+
+;; Operar-binarias:
+;; Proposito:
+;; OperacionB -> r : recibe una operacion binaria valida
+;; y retorna el resultado de hacer las operaciones suma, resta y multiplicacion correspondientes.
+;;
+;; <OperacionB> ::= <int>
+;;              ::= (<OperacionB> ’suma <OperacionB>)
+;;              ::= (<OperacionB> ’resta <OperacionB>)
+;;              ::= (<OperacionB> ’multiplica <OperacionB>)
+
+(define Operar-binarias
+  (lambda (operacionB)
+    (cond
+      [(number? operacionB) operacionB]
+      [else
+        (cond
+          [(eqv? (cadr operacionB) (car '(suma))) (+ (car operacionB) (caddr operacionB))]
+          [(eqv? (cadr operacionB) (car '(resta))) (- (car operacionB) (caddr operacionB))]
+          [else (* (car operacionB) (caddr operacionB))]
+        )
+      ]
+    )
+  )
+)
+
+;; Pruebas
+(display (Operar-binarias 4))
+(newline)
+(display (Operar-binarias '(2 suma 9)))
+(newline)
+(display (Operar-binarias '(2 resta 9)))
+(newline)
+(display (Operar-binarias '(2 multiplica 9)))
 (newline)
 (newline)
 
