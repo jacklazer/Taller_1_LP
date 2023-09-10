@@ -1,7 +1,3 @@
 #lang eopl
-(display "Hola, mundo cruel")
-(newline)
 
-(display "Hola mundo sad :(")
-
-(display "Hola por tercera vezzzzzzzz")
+; Juan Sebastian Cifuentes Vallejo - 202179800
