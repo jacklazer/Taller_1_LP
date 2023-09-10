@@ -16,7 +16,7 @@
 ;;
 ;; <tupla> := (<tipo-de-dato> <tipo-de-dato>)
 ;;
-;; <tipo-de-dato> := <int> | <simbolo> | <cadena> | <otro>
+;; <tipo-de-dato> := <int> | <simbolo> | <cadena> | <otro-tipo-de-dato>
 
 (define invert
   (lambda (L)
@@ -41,12 +41,9 @@
 ;; P x L -> L’ : Procedimiento que recibe un predicado P y una lista L  
 ;; y devuelve una lista L' con los elementos de L que cumplen P.
 ;;
-;; <lista> := ()
-;;         := (<lista-o-tipo-de-dato> <lista>)
+;; <lista> := ({<expresion>}*)
 ;;
-;; <lista-o-tipo-de-dato> := <lista> | <tipo-de-dato>
-;;
-;; <tipo-de-dato> := <int> | <simbolo> | <cadena> | <otro>
+;; <expresion> := <lista> | <int> | <simbolo> | <cadena> | <otro-tipo-de-dato>
 
 (define filter-in
   (lambda (P L)
