@@ -5,6 +5,7 @@
 ; Yissy Katherine Posso Perea - 202181910
 
 ;; 1)
+
 ;; invert:
 ;; Proposito:
 ;; L -> L’ : Procedimiento que recibe una lista L de n tuplas 
@@ -37,6 +38,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; 4)
+
 ;; filter-in:
 ;; Proposito:
 ;; P x L -> L’ : Procedimiento que recibe un predicado P y una lista L  
@@ -69,6 +71,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; 7)
+
 ;; cartesian-product-aux:
 ;; Proposito:
 ;; L1 x L2 x L3 -> L’ : Procedimiento que recibe tres listas, L1, L2 y L3,
@@ -93,6 +96,12 @@
   )
 )
 
+;; Pruebas
+(display (cartesian-product-aux '(a b c) '(x y) '(x y)))
+(newline)
+(display (cartesian-product-aux '(p q r) '(5 6 7) '(5 6 7)))
+(newline)
+(newline)
 
 ;; cartesian-product:
 ;; Proposito:
@@ -122,17 +131,40 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; 7)
-;; cartesian-product-aux:
+;; 10)
+
+;; up:
 ;; Proposito:
-;; L1 x L2 x L3 -> L’ : Procedimiento que recibe tres listas, L1, L2 y L3,
-;; y devuelve una lista L' con el producto cartesiano entre L1 y L2
-;; siempre y cuando L2 sea igual a L3.
+;; L -> L’ : Procedimiento que recibe una lista L que contiene expresiones,
+;; y devuelve una lista L' con las expresiones de L que no son listas y las
+;; expresiones de las listas dentro de L.
 ;;
-;; <lista-de-datos> := ({<tipo-de-dato>}*)
+;; <lista> := ({<expresion>}*)
 ;;
-;; <lista-de-tuplas> := ({<tupla-de-datos>}*)
-;;
-;; <tupla-de-datos> := (<tipo-de-dato> <tipo-de-dato>)
-;;
-;; <tipo-de-dato> := <int> | <simbolo> | <otro-tipo-de-dato>
+;; <expresion> := <lista> | <int> | <simbolo> | <cadena> | <otro-tipo-de-dato>
+
+(define up
+  (lambda (L)
+    (cond
+      [(null? L) L]
+      [else
+        (cond
+          [(not (list? (car L))) (cons (car L) (up (cdr L)))] ;[(or (symbol? (car L)) (number? (car L))) (cons (car L) (up (cdr L)))]
+          [else
+            (cond
+              [(not (null? (car L))) (cons (caar L) (up (cons (cdar L) (cdr L))))]
+              [else (up (cdr L))]
+            )
+          ]
+        )
+      ]
+    )
+  )
+)
+
+;; Pruebas
+(display (up '((1 2) (3 4))))
+(newline)
+(display (up '((x (y)) z)))
+(newline)
+(newline)
