@@ -101,7 +101,6 @@
 (newline)
 (display (cartesian-product-aux '(p q r) '(5 6 7) '(5 6 7)))
 (newline)
-(newline)
 
 ;; cartesian-product:
 ;; Proposito:
@@ -168,3 +167,61 @@
 (display (up '((x (y)) z)))
 (newline)
 (newline)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; 13)
+
+;; operate-aux:
+;; Proposito:
+;; lrators x lrands x result -> L’ : Procedimiento que recibe dos listas y un numero, 
+;; lrators que contiene n funciones binarias, lrands que contiene n+1 numeros y result,
+;; y devuelve el resultado de aplicar sucesivamente las operaciones en lrators a los
+;; valores en lrands como si el primer valor de lrands fuera result.
+;;
+;; <lista-de-enteros> := ({int}*)
+;;
+;; <lista-de-operaciones-binarias> := ({<operaciones-binarias>}*)
+;;
+;; <operaciones-binarias> := + | - | * | / | <otras-operaciones-binarias>
+
+(define operate-aux
+  (lambda (lrators lrands result)
+    (cond
+      [(null? lrators) result]
+      [else (operate-aux (cdr lrators) (cdr lrands) ((car lrators) result (car lrands)))]
+    )
+  )
+)
+
+;; Pruebas
+(display (operate-aux (list * + - *) '(8 4 11 6) 3))
+(newline)
+(display (operate-aux (list ) '() 20))
+(newline)
+
+;; operate:
+;; Proposito:
+;; lrators x lrands -> L’ : Procedimiento que recibe dos listas, lrators que
+;; contiene n funciones binarias y lrands que contiene n+1 numeros y devuelve
+;; resultado de aplicar sucesivamente las operaciones en lrators a los valores en lrands.
+;;
+;; <lista-de-enteros> := ({int}*)
+;;
+;; <lista-de-operaciones-binarias> := ({<operaciones-binarias>}*)
+;;
+;; <operaciones-binarias> := + | - | * | / | <otras-operaciones-binarias>
+
+(define operate
+  (lambda (lrators lrands)
+    (operate-aux (cdr lrators) (cddr lrands) ((car lrators) (car lrands) (cadr lrands)))
+  )
+)
+
+;; Pruebas
+(display (operate (list + * + - *) '(1 2 8 4 11 6)))
+(newline)
+(display (operate (list *) '(4 5)))
+(newline)
+(newline)
+
