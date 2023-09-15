@@ -148,7 +148,7 @@
       [(null? L) L]
       [else
         (cond
-          [(not (list? (car L))) (cons (car L) (up (cdr L)))] ;[(or (symbol? (car L)) (number? (car L))) (cons (car L) (up (cdr L)))]
+          [(not (list? (car L))) (cons (car L) (up (cdr L)))]
           [else
             (cond
               [(not (null? (car L))) (cons (caar L) (up (cons (cdar L) (cdr L))))]
@@ -231,7 +231,7 @@
 
 ;; Operar-binarias:
 ;; Proposito:
-;; OperacionB -> r : recibe una operacion binaria valida
+;; OperacionB -> r :Procedimiento que recibe una operacion binaria valida
 ;; y retorna el resultado de hacer las operaciones suma, resta y multiplicacion correspondientes.
 ;;
 ;; <OperacionB> ::= <int>
@@ -262,6 +262,180 @@
 (display (Operar-binarias '(2 resta 9)))
 (newline)
 (display (Operar-binarias '(2 multiplica 9)))
+(newline)
+(newline)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; 14)
+
+;; path:
+;; Proposito:
+;; n x BST -> r : Procedimiento que recibe un numero n y un <árbol-binario> BST con ese numero
+;; y devuelve el camino desde la raiz del arbol para llegar al numero en algun nodo.
+;;
+;; <árbol-binario> := (árbol-vacío) empty
+;;                  := (nodo) número <árbol-binario> <árbol-binario>
+
+(define path
+  (lambda (n BST)
+    (cond
+      [(> (car BST) n) (cons 'left (path n (cadr BST)))]
+      [(< (car BST) n) (cons 'rigth (path n (caddr BST)))]
+      [else '()]
+    )
+  )
+)
+
+;; Pruebas
+(display (path 17 '(14 (7 () (12 () ())) (26 (20 (17 () ()) ()) (31 () ())))))
+(newline)
+(display (path 14 '(8 (4 (3 () ()) (5 () ())) (15 (13 (12 () ()) (14 () ())) (17 (16 () ()) (18 () ()))))))
+(newline)
+(display (path 14 '(8 (3 (1 () ()) (6 (4 () ()) (7 () ()))) (10 () (14 (13 () ()) ())))))
+(newline)
+(display (path 8 '(8 (3 (1 () ()) (6 (4 () ()) (7 () ()))) (10 () (14 (13 () ()) ())))))
+(newline)
+(newline)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; 15)
+
+(define count-odd-and-even-aux
+  (lambda (a b)
+    (cons (+ (car a) (car b)) (cons (+ (cadr a) (cadr b)) '()))
+  )
+)
+
+;; count-odd-and-even:
+;; Proposito:
+;; arbol -> r: Procedimiento que recibe un arbol "arbol" y devuelve
+;; una tupla r de la forma (x y) donde x es el numero de pares y y el numero de impares.
+;;
+;; <árbol-binario> := (árbol-vacío) empty
+;;                  := (nodo) número <árbol-binario> <árbol-binario>
+;;
+;;<tupla> := (<entero-no-negativo> <entero-no-negativo>)
+
+(define count-odd-and-even
+  (lambda (arbol)
+    (cond
+      [(null? arbol) '(0 0)]
+      [else
+        (cond
+          [(odd? (car arbol)) (count-odd-and-even-aux '(0 1) (count-odd-and-even-aux (count-odd-and-even (cadr arbol)) (count-odd-and-even (caddr arbol))))]
+          [else (count-odd-and-even-aux '(1 0) (count-odd-and-even-aux (count-odd-and-even (cadr arbol)) (count-odd-and-even (caddr arbol))))]
+        )
+      ]
+    )
+  )
+)
+
+;; Pruebas
+(display (count-odd-and-even '(14 (7 () (12 () ())) (26 (20 (17 () ()) ()) (31 () ())))))
+(newline)
+(display (count-odd-and-even '(8 (4 (3 () ()) (5 () ())) (15 (13 (12 () ()) (14 () ())) (17 (16 () ()) (18 () ()))))))
+(newline)
+(display (count-odd-and-even '(8 (3 (1 () ()) (6 (4 () ()) (7 () ()))) (10 () (14 (13 () ()) ())))))
+(newline)
+(newline)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; 18)
+
+;; pascal-aux-1:
+;; Proposito:
+;; l -> 'l : Recibe una lista l y le agrega un cero al inicio de la lista.
+;;
+;; <lista-de-enteros> := (<0>{int}*)
+
+(define pascal-aux-1
+  (lambda (l)
+    (cons 0 l)
+  )
+)
+
+;; pascal-aux-2:
+;; Proposito:
+;; l -> 'l : Recibe una lista l y agrega la cabeza de la lista
+;; al inicio de la lista resultado (toma una lista y la invierte)
+;;
+;; <lista-de-enteros> := ({int}*)
+
+(define pascal-aux-2
+  (lambda (l)
+    (cond
+      [(null? l) '(0)]
+      [else (cons (car l) (pascal-aux-2 (cdr l)))]
+    )
+  )
+)
+
+;;pascal-aux-3:
+;; Proposito:
+;; l1 l2 -> 'l : Recibe dos listas l1 y l2 y retorna una lista l
+;; donde cada elementi es la suma de los elementos correspondientes
+;; a la misma posicion en las listas l1 y l2
+;;
+;; <lista-de-enteros> := ({int}*)
+
+(define pascal-aux-3
+  (lambda (l1 l2)
+    (cond
+      [(null? l1) l1]
+      [else (cons (+ (car l1) (car l2)) (pascal-aux-3 (cdr l1) (cdr l2)))]
+    )
+  )
+)
+;;pascal-aux-4:
+;; Proposito:
+;; N l -> 'l : Recibe un numero N y una lista l y calcula la fila N del
+;; triángulo de pascal y devuelve una lista que representa esta fila.
+;;
+;; <lista-de-enteros> := ({int}*)
+
+(define pascal-aux-4
+  (lambda (N l)
+    (cond
+      [(eqv? N 0) l]
+      [else (pascal-aux-4 (- N 1) (pascal-aux-3 (pascal-aux-2 l) (pascal-aux-1 l)))]
+    )
+  )
+)
+
+(display (pascal-aux-1 '(1 2 3 4)))
+(newline)
+(display (pascal-aux-2 '(1 2 3 4)))
+(newline)
+(display (pascal-aux-3 '(1 2 3 4) '(1 2 3 4)))
+(newline)
+
+;; pascal:
+;; Proposito:
+;; N -> f : recibe un numero N y devuelve la fila N del triangulo de pascal
+;;
+;; <lista-de-enteros> := ({int}*)
+
+(define pascal
+  (lambda (N)
+    (pascal-aux-4 (- N 1) '(1))
+  )
+)
+
+;; Pruebas
+(display (pascal 1))
+(newline)
+(display (pascal 2))
+(newline)
+(display (pascal 3))
+(newline)
+(display (pascal 4))
+(newline)
+(display (pascal 5))
 (newline)
 (newline)
 
