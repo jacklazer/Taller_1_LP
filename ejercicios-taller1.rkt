@@ -101,13 +101,6 @@
  (inversions '(2 4 5 7 3 1))
 
 
-;;funcion aux que reciba dos listas que son la misma y una de ellas borra elementos
-;; y la otra los deja normales
-;;recibe tres listas, la primera no se borra
-;;llamado recursivo con 3 listas
-;; llMdo con las listaa normal (tener la misma lista)
-;;llamado con el cdr de la lista normal (ver que numeros son mayores que el actual) 
-;;llamado con el cadr de la otra lista (saber cual es el actual)
 ;;12
 
 ;;filter-acum:
